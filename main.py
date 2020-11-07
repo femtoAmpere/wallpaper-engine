@@ -24,4 +24,4 @@ engine = wallengine.WallEngine(wall_cache_dir=config.directory,
 
 while True:
     engine.rotate_walls()
-    time.sleep(config.slideshow_minutes * 60 * 0.8)
+    time.sleep(config.slideshow_minutes * 60 * 2 * 0.8)
