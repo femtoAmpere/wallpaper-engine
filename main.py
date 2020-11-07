@@ -18,7 +18,7 @@ console.setFormatter(logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s
 logging.getLogger("").addHandler(console)
 
 engine = wallengine.WallEngine(wall_cache_dir=config.directory,
-                               wall_cache_size=config.slideshow_screens * config.slideshow_minutes * 2,
+                               wall_cache_size=config.slideshow_screens * 2,
                                wall_cache_tags=config.tags
                                )
 
