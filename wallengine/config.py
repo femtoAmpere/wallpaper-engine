@@ -4,6 +4,7 @@ directory = "wallpapers"
 tags = [
     #"width:>2560",  # use width if you select "fill" in wallpaper settings
     "height:>1440",  # use height if you select "fit" in wallpaper settings
+    "rating:s",
     "-animated",
     "big_breasts",
     "order:score",
