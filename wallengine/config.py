@@ -1,4 +1,4 @@
-slideshow_seconds = 60
+slideshow_minutes = 10
 slideshow_screens = 3
 directory = "wallpapers"
 tags = [

@@ -17,6 +17,10 @@ class WallEngine:
         self.wall_cache_tags = wall_cache_tags
 
     def rotate_walls(self):
+        """
+        Update/Rotate wallpapers with new content.
+        :return:
+        """
         old_files = files.get_files_in_dir(self.wall_cache_dir)
         logger.info("Old files: " + str(old_files))
         new_files = files.download_wallpapers(tags=self.wall_cache_tags,
@@ -25,3 +29,13 @@ class WallEngine:
         logger.info("New files: " + str(new_files))
         for file in old_files:
             send2trash.send2trash(file)
+
+
+'''
+# set wallpaper. may be used later
+
+import ctypes  
+
+SPI_SETDESKWALLPAPER = 0x0014
+print(ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, r"path.jpg", 0))
+'''
