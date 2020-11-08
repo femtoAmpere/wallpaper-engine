@@ -1,5 +1,5 @@
 import os
-import send2trash
+import ctypes
 
 from wallengine import files
 
@@ -15,27 +15,52 @@ class WallEngine:
         self.wall_cache_dir = wall_cache_dir
         self.wall_cache_size = wall_cache_size
         self.wall_cache_tags = wall_cache_tags
+        self.cache_imgs = self.get_current_cache()
+        self.cache_pos = 0
+        self.renew_wall_cache()
 
-    def rotate_walls(self):
+    def renew_wall_cache(self, cleanup_files=False):
         """
         Update/Rotate wallpapers with new content.
+        :param cleanup_files: set True if old files should be deleted
         :return:
         """
-        old_files = files.get_files_in_dir(self.wall_cache_dir)
-        logger.info("Old files: " + str(old_files))
-        new_files = files.download_wallpapers(tags=self.wall_cache_tags,
-                                              download_dir=self.wall_cache_dir,
-                                              amount=self.wall_cache_size)
-        logger.info("New files: " + str(new_files))
-        for file in old_files:
-            send2trash.send2trash(file)
+        """
+        
+        :return:
+        """
+        new_wallpapers = files.download_wallpapers(tags=self.wall_cache_tags,
+                                                   download_dir=self.wall_cache_dir,
+                                                   amount=self.wall_cache_size)
+        logger.info("Current walls: " + new_wallpapers)
+        if cleanup_files:
+            files.trash_files(self.cache_imgs)
+        self.cache_imgs = new_wallpapers
+        return new_wallpapers
 
+    def get_current_cache(self):
+        """
+        Get current files in img_cache dir.
+        :return: files in cache
+        """
+        cache = files.get_files_in_dir(self.wall_cache_dir)
+        logger.debug("Found wallpapers in cache: " + str(cache))
+        return cache
 
-'''
-# set wallpaper. may be used later
+    def next_wallpaper(self):
+        """
+        Set wallpaper to next in cache.
+        :return: Return code of SystemParametersInfoW
+        https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfow
+        """
+        if self.cache_pos >= len(self.cache_imgs):
+            self.renew_wall_cache()
+            self.cache_pos = 0
+        wallpaper = os.path.abspath(self.cache_imgs[self.cache_pos])
+        logger.info("Setting wallpaper to " + str(wallpaper))
+        # SPI_SETDESKWALLPAPER = 0x0014
+        sysparamw_return = ctypes.windll.user32.SystemParametersInfoW(0x0014, 0, wallpaper, 0)
+        logger.debug("SystemParametersInfoW Return: " + str(sysparamw_return))
 
-import ctypes  
-
-SPI_SETDESKWALLPAPER = 0x0014
-print(ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, r"path.jpg", 0))
-'''
+        self.cache_pos += 1
+        return sysparamw_return

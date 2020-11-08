@@ -11,11 +11,23 @@ logger = logging.getLogger("files")
 
 
 def download_wallpapers(tags, download_dir, amount):
+    """
+    Get files from e621.net
+    :param tags: e621 tags
+    :param download_dir: target download directory
+    :param amount: amount of files to be downloaded
+    :return:
+    """
     submissions = get_submissions(tags, amount)
     return download_submissions(submissions, download_dir)
 
 
 def trash_files(files):
+    """
+    Put list of files into recycle bin
+    :param files: list of files
+    :return:
+    """
     for file in files:
         try:
             send2trash.send2trash(file)
@@ -24,6 +36,11 @@ def trash_files(files):
 
 
 def get_files_in_dir(fdir):
+    """
+    Get files in directory.
+    :param fdir: directory to be scanned
+    :return: list of files in directory
+    """
     files = []
     for file in os.listdir(os.path.join(fdir)):
         files.append(os.path.join(".", fdir, file))
