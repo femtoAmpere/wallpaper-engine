@@ -32,7 +32,7 @@ class WallEngine:
         new_wallpapers = files.download_wallpapers(tags=self.wall_cache_tags,
                                                    download_dir=self.wall_cache_dir,
                                                    amount=self.wall_cache_size)
-        logger.info("Current walls: " + new_wallpapers)
+        logger.info("Current walls: " + str(new_wallpapers))
         if cleanup_files:
             files.trash_files(self.cache_imgs)
         self.cache_imgs = new_wallpapers
