@@ -60,14 +60,18 @@ def _list_to_string(list_to_str, separator):
     return str_return.rsplit(separator, 1)[0]
 
 
-def _download_file(url, filename):
+def _download_file(url, filename, overwrite=False):
     """
     Download a file via stream.
     :param url: url to download
     :param filename: filename to download to
+    :param overwrite: overwrite file if it exists
     :return: filename to download to
     """
     logger.info("Downloading " + str(url) + " -> " + str(filename))
+    if os.path.isfile(filename) and overwrite:
+        logger.warning("File already exists! Skipping..")
+        return filename
     with requests.get(url, stream=True) as r:
         r.raise_for_status()
         with open(filename, 'wb') as f:
