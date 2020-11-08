@@ -3,6 +3,7 @@ import requests
 
 import random
 import os
+import send2trash
 
 import logging
 
@@ -12,6 +13,14 @@ logger = logging.getLogger("files")
 def download_wallpapers(tags, download_dir, amount):
     submissions = get_submissions(tags, amount)
     return download_submissions(submissions, download_dir)
+
+
+def trash_files(files):
+    for file in files:
+        try:
+            send2trash.send2trash(file)
+        except Exception as e:
+            logger.error('Could not remove file ' + str(file) + '. Exception: ' + str(e))
 
 
 def get_files_in_dir(fdir):
