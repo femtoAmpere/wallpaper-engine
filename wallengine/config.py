@@ -9,5 +9,5 @@ tags = [
     "order:score",
     "date:week",
     "-comic",
-    "big_breasts",
+    "big_breasts"
 ]
