@@ -20,7 +20,8 @@ logging.getLogger("").addHandler(console)
 engine = wallengine.WallEngine(
     wall_cache_dir=config.directory,
     wall_cache_size=int(config.slideshow_screens * 20 / config.slideshow_minutes),  #  cache for 20 minutes
-    wall_cache_tags=config.tags
+    wall_cache_tags=config.tags,
+    wall_cache_rng_pool_size=config.rng_pool_size
     )
 
 while True:

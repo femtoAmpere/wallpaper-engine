@@ -9,12 +9,13 @@ logger = logging.getLogger("wallengine")
 
 
 class WallEngine:
-    def __init__(self, wall_cache_dir, wall_cache_size, wall_cache_tags):
+    def __init__(self, wall_cache_dir, wall_cache_size, wall_cache_tags, wall_cache_rng_pool_size=320):
         if not os.path.isdir(wall_cache_dir):
             os.mkdir(wall_cache_dir)
         self.wall_cache_dir = wall_cache_dir
         self.wall_cache_size = wall_cache_size
         self.wall_cache_tags = wall_cache_tags
+        self.wall_cache_pool_size=wall_cache_rng_pool_size
         self.cache_imgs = self.get_current_cache()
         self.cache_pos = 0
         self.renew_wall_cache()
@@ -31,7 +32,8 @@ class WallEngine:
         """
         new_wallpapers = files.download_wallpapers(tags=self.wall_cache_tags,
                                                    download_dir=self.wall_cache_dir,
-                                                   amount=self.wall_cache_size)
+                                                   amount=self.wall_cache_size,
+                                                   pool_size=self.wall_cache_pool_size)
         logger.info("Current walls: " + str(new_wallpapers))
         if cleanup_files:
             files.trash_files(self.cache_imgs)

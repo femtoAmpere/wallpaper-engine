@@ -10,15 +10,16 @@ import logging
 logger = logging.getLogger("files")
 
 
-def download_wallpapers(tags, download_dir, amount):
+def download_wallpapers(tags, download_dir, amount, pool_size):
     """
     Get files from e621.net
     :param tags: e621 tags
     :param download_dir: target download directory
     :param amount: amount of files to be downloaded
+    :param pool_size: pool size to download from
     :return:
     """
-    submissions = get_submissions(tags, amount)
+    submissions = get_submissions(tags, amount, pool_size)
     return download_submissions(submissions, download_dir)
 
 
@@ -91,6 +92,8 @@ def get_submissions(tags, amount=16, pool_size=320):
     :param pool_size: submission pool size to take the samples from
     :return: list of randomly picked submissions
     """
+    if pool_size > 320 or pool_size < 1:  # hard limit of 320 https://e621.net/help/api
+        pool_size = 320
     api_url = 'https://e621.net/posts.json?tags=' + _list_to_string(tags, '+') + '&limit=' + str(pool_size)
     logger.debug('Getting e621 api call json for ' + api_url)
     r = requests.get(api_url, headers={'User-Agent': 'wallpaper engine by femtoAmpere'})
