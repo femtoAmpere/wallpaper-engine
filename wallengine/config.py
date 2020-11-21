@@ -16,7 +16,7 @@ tags = [
     "height:>1440",  # use height if you select "fit" in wallpaper settings
     #
     # rating tags
-    #"rating:s",
+    "rating:s",
     #
     # user tags (owo)
     "big_breasts"
