@@ -6,7 +6,8 @@ tags = [
     "height:>1440",  # use height if you select "fit" in wallpaper settings
     "rating:s",
     "-animated",
-    "big_breasts",
     "order:score",
-    "-comic"
+    "date:week",
+    "-comic",
+    "big_breasts",
 ]
