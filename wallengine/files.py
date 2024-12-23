@@ -1,3 +1,5 @@
+from wallengine import config
+
 import urllib.parse
 import requests
 
@@ -94,9 +96,9 @@ def get_submissions(tags, amount=16, pool_size=320):
     """
     if pool_size > 320 or pool_size < 1:  # hard limit of 320 https://e621.net/help/api
         pool_size = 320
-    api_url = 'https://e621.net/posts.json?tags=' + _list_to_string(tags, '+') + '&limit=' + str(pool_size)
+    api_url = random.choice(['https://e621.net/', 'https://e6ai.net/']) + 'posts.json?tags=' + _list_to_string(tags, '+') + '&limit=' + str(pool_size)
     logger.debug('Getting e621 api call json for ' + api_url)
-    r = requests.get(api_url, allow_redirects=True, headers={'User-Agent': 'wallpaper engine by femtoAmpere'})
+    r = requests.get(api_url, allow_redirects=True, headers={'User-Agent': f'wallpaper engine {config.version} by femtoAmpere'})
 
     i = 0
     submissions = []
@@ -129,6 +131,3 @@ def download_submissions(submissions, target_dir):
         except Exception as e:
             logger.error('Could not download post ' + str(submission['id']) + '. Exception: ' + str(e))
     return downloaded
-
-
-
