@@ -96,7 +96,7 @@ def get_submissions(tags, amount=16, pool_size=320):
         pool_size = 320
     api_url = 'https://e621.net/posts.json?tags=' + _list_to_string(tags, '+') + '&limit=' + str(pool_size)
     logger.debug('Getting e621 api call json for ' + api_url)
-    r = requests.get(api_url, headers={'User-Agent': 'wallpaper engine by femtoAmpere'})
+    r = requests.get(api_url, allow_redirects=True, headers={'User-Agent': 'wallpaper engine by femtoAmpere'})
 
     i = 0
     submissions = []

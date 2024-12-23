@@ -5,6 +5,6 @@ IF NOT EXIST .venv (
     .venv\Scripts\python -m pip install -r requirements.txt
 )
 
-start .venv\Scripts\pythonw main.py
+.venv\Scripts\python main.py || pause
 
 exit /B 0
